@@ -1,0 +1,33 @@
+{
+  "name": "yerror",
+  "version": "1.0.0",
+  "description": "It helps to know why you got an error.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha tests/*.mocha.js",
+    "coveralls": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- tests/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "cover": "./node_modules/istanbul/lib/cli.js cover --report html ./node_modules/mocha/bin/_mocha -- tests/*.mocha.js -R spec -t 5000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/SimpliField/yerror.git"
+  },
+  "keywords": [
+    "error",
+    "why",
+    "better"
+  ],
+  "author": "Nicolas Froidure (Simplifield)",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/SimpliField/yerror/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.21.5",
+    "mocha-lcov-reporter": "0.0.1",
+    "coveralls": "~2.11.2",
+    "istanbul": "~0.3.2"
+  },
+  "dependencies": {
+  }
+}
