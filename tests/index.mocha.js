@@ -1,6 +1,5 @@
 var assert = require('assert');
 var YError = require('../src');
-var os = require('os');
 
 describe('YError', function() {
 

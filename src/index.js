@@ -17,7 +17,7 @@ function YError(errorCode) {
 
 util.inherits(YError, Error);
 
-YError.prototype.toString = function(stack) {
+YError.prototype.toString = function() {
   return (
     this.wrappedErrors.length ?
     this.wrappedErrors[this.wrappedErrors.length - 1].stack + os.EOL :
