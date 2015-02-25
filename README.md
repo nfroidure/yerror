@@ -31,7 +31,7 @@ doSomething('nuts', 'code');
 
 ```
 
-You don't have to use constant like error messages, we use its convention
+You don't have to use constant like error messages, we use this convention
  mainly for i18n reasons.
 
 Also, you could want to wrap errors and keep a valuable stack trace:
@@ -43,15 +43,15 @@ function doSomethingAsync(pay, action) {
       doSomething(pay, action);
       resolve();
     } catch(err) {
-      reject(err);
+      reject(YError.bump(err));
     }
   });
 }
 
 doSomethingAsync('nuts', 'code')
   .catch(function(err) {
-    return YError.bump(err);
-  }).done();
+    console.log(err.stack);
+  });
 
 // YError: E_BAD_PAY (nuts, code)
 //    at doSomething (/home/nfroidure/simplifield/yerror/test.js:5:11)
