@@ -7,6 +7,7 @@ describe('YError', function() {
 
     it('Should work', function() {
       var err = new YError('E_ERROR', 'arg1', 'arg2');
+      assert(err instanceof Error);
       assert.equal(err.name, err.toString());
       assert.equal(err.code, 'E_ERROR');
       assert.deepEqual(err.params, ['arg1', 'arg2']);
@@ -22,6 +23,7 @@ describe('YError', function() {
     it('Should work without new', function() {
       var err = new YError('E_ERROR', 'arg1', 'arg2');
       assert.equal(err.code, 'E_ERROR');
+      assert(err instanceof YError);
       assert.deepEqual(err.params, ['arg1', 'arg2']);
       assert.equal(err.toString(), 'YError: E_ERROR (arg1, arg2)');
       assert.equal(err.name, err.toString());

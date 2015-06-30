@@ -4,6 +4,12 @@ var os = require('os');
 // Create an Error able to contain some params and better stack traces
 function YError(errorCode) {
 
+  // Ensure new were called
+  if(!this instanceof YError) {
+    return new (YError.bind.apply(YError,
+      [YError].concat([].slice.call(arguments, 0))));
+  }
+
   // Call the parent constructor
   Error.call(this, errorCode);
   Error.captureStackTrace(this, this.constructor);
