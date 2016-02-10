@@ -1,3 +1,5 @@
+'use strict';
+
 var util = require('util');
 var os = require('os');
 
@@ -36,7 +38,7 @@ YError.prototype.toString = function() {
 // Wrap a classic error
 YError.wrap = function(err, errorCode) {
   var yError = null;
-  var wrappedErrorIsACode = /^([A-Z0-9_]+)$/.test(err.message);
+  var wrappedErrorIsACode = (/^([A-Z0-9_]+)$/).test(err.message);
   if(!errorCode) {
     if(wrappedErrorIsACode) {
       errorCode = err.message;
@@ -56,7 +58,7 @@ YError.wrap = function(err, errorCode) {
 
 YError.cast = function(err) {
   if(err instanceof YError) {
-      return err;
+    return err;
   }
   return YError.wrap.apply(YError, arguments);
 };
@@ -69,4 +71,3 @@ YError.bump = function(err) {
 };
 
 module.exports = YError;
-
