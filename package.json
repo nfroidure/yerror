@@ -24,7 +24,7 @@
     "better"
   ],
   "author": "Nicolas Froidure (Simplifield)",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/SimpliField/yerror/issues"
   },
