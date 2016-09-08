@@ -30,10 +30,10 @@
   },
   "devDependencies": {
     "coveralls": "~2.11.2",
-    "eslint": "^1.10.3",
-    "eslint-config-simplifield": "^1.2.0",
+    "eslint": "^3.4.0",
+    "eslint-config-simplifield": "^4.1.1",
     "istanbul": "^0.4.2",
-    "mocha": "^2.4.5",
+    "mocha": "^3.0.2",
     "mocha-lcov-reporter": "^1.0.0"
   },
   "dependencies": {}
