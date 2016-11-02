@@ -2,7 +2,7 @@
 > Better errors for your NodeJS code.
 
 
-[![NPM version](https://badge.fury.io/js/yerror.png)](https://npmjs.org/package/yerror) [![Build status](https://secure.travis-ci.org/SimpliField/yerror.png)](https://travis-ci.org/SimpliField/yerror) [![Dependency Status](https://david-dm.org/SimpliField/yerror.png)](https://david-dm.org/SimpliField/yerror) [![devDependency Status](https://david-dm.org/SimpliField/yerror/dev-status.png)](https://david-dm.org/SimpliField/yerror#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/SimpliField/yerror/badge.png?branch=master)](https://coveralls.io/r/SimpliField/yerror?branch=master) [![Code Climate](https://codeclimate.com/github/SimpliField/yerror.png)](https://codeclimate.com/github/SimpliField/yerror)
+[![NPM version](https://badge.fury.io/js/yerror.svg)](https://npmjs.org/package/yerror) [![Build status](https://secure.travis-ci.org/SimpliField/yerror.png)](https://travis-ci.org/SimpliField/yerror) [![Dependency Status](https://david-dm.org/SimpliField/yerror/status.svg)](https://david-dm.org/SimpliField/yerror) [![devDependency Status](https://david-dm.org/SimpliField/yerror/dev-status.svg)](https://david-dm.org/SimpliField/yerror#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/SimpliField/yerror/badge.svg?branch=master)](https://coveralls.io/r/SimpliField/yerror?branch=master) [![Code Climate](https://codeclimate.com/github/SimpliField/yerror.png)](https://codeclimate.com/github/SimpliField/yerror)
 
 ## Usage
 
