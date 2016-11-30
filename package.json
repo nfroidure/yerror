@@ -7,6 +7,9 @@
     "test": "mocha tests/*.mocha.js",
     "coveralls": "istanbul cover _mocha --report lcovonly -- tests/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "cover": "istanbul cover --report html _mocha -- tests/*.mocha.js -R spec -t 5000",
+    "codacy": "npm run codacy:build && npm run codacy:send",
+    "codacy:build": "istanbul cover _mocha --report lcovonly -- tests/*.mocha.js -R spec -t 5000",
+    "codacy:send":  "cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "cli": "env NPM_RUN_CLI=1",
     "lint": "eslint src/index.js tests/index.mocha.js",
     "preversion": "npm run lint && npm test"
@@ -29,6 +32,7 @@
     "url": "https://github.com/SimpliField/yerror/issues"
   },
   "devDependencies": {
+    "codacy-coverage": "^2.0.0",
     "coveralls": "~2.11.2",
     "eslint": "^3.4.0",
     "eslint-config-simplifield": "^4.1.1",

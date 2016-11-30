@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-  - 4
-  - 6
-
+- 4
+- 6
 before_script:
-  - npm install --dev
-
+- npm install --dev
 script:
-  - npm test
+- npm test
+- npm run codacy || true
+env:
+  global:
+    secure: cNj/mepB3GCcawL/Iu7iCnl/BS9Xu69ofC7KXfRf13RDVBtRhwtwJYGwXCFUFXxrqj/859vKIDSh+qGjoEh1eITDAFuKozCUDwEA1sKLtASv/7mlyN4z0eUXMiVlZatr2ZtJgmh1HAmZLVr4SIrv4MzdnohnvJD/aB4KN3NV/jc=
