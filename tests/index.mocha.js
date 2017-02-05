@@ -1,13 +1,14 @@
+/* eslint max-nested-callbacks:[0], no-magic-numbers:[0] */
 'use strict';
 
 var assert = require('assert');
 var YError = require('../src');
 
-describe('YError', function() {
+describe('YError', () => {
 
-  describe('.__constructor', function() {
+  describe('.__constructor', () => {
 
-    it('Should work', function() {
+    it('Should work', () => {
       var err = new YError('E_ERROR', 'arg1', 'arg2');
 
       assert(err instanceof Error);
@@ -16,7 +17,7 @@ describe('YError', function() {
       assert.deepEqual(err.params, ['arg1', 'arg2']);
       assert.equal(err.toString(), 'YError: E_ERROR (arg1, arg2)');
     });
-    it('Should work without code', function() {
+    it('Should work without code', () => {
       var err = new YError();
 
       assert.equal(err.code, 'E_UNEXPECTED');
@@ -24,7 +25,7 @@ describe('YError', function() {
       assert.equal(err.toString(), 'YError: E_UNEXPECTED ()');
       assert.equal(err.name, err.toString());
     });
-    it('Should work without new', function() {
+    it('Should work without new', () => {
       var err = new YError('E_ERROR', 'arg1', 'arg2');
 
       assert.equal(err.code, 'E_ERROR');
@@ -36,14 +37,15 @@ describe('YError', function() {
 
   });
 
-  describe('.wrap()', function() {
+  describe('.wrap()', () => {
 
-    it('Should work with standard errors and a message', function() {
+    it('Should work with standard errors and a message', () => {  // eslint-disable-line
       var err = YError.wrap(new Error('This is an error!'));
 
       assert.equal(err.code, 'E_UNEXPECTED');
       assert.equal(err.wrappedErrors.length, 1);
       assert.deepEqual(err.params, ['This is an error!']);
+
       assert(
         -1 !== err.stack.indexOf('Error: This is an error!'),
         'Stack contains original error.'
@@ -55,7 +57,7 @@ describe('YError', function() {
       assert.equal(err.name, err.toString());
     });
 
-    it('Should work with standard errors and an error code', function() {
+    it('Should work with standard errors and an error code', () => {
       var err = YError.wrap(new Error('E_ERROR'));
 
       assert.equal(err.code, 'E_ERROR');
@@ -72,7 +74,7 @@ describe('YError', function() {
       assert.equal(err.name, err.toString());
     });
 
-    it('Should work with standard errors, an error code and params', function() {
+    it('Should work with standard errors, an error code and params', () => {
       var err = YError.wrap(new Error('E_ERROR'), 'E_ERROR_2', 'arg1', 'arg2');
 
       assert.equal(err.code, 'E_ERROR_2');
@@ -89,7 +91,7 @@ describe('YError', function() {
       assert.equal(err.name, err.toString());
     });
 
-    it('Should work with several wrapped errors', function() {
+    it('Should work with several wrapped errors', () => {
       var err = YError.wrap(
         YError.wrap(
             new Error('E_ERROR_1'),
@@ -122,9 +124,9 @@ describe('YError', function() {
 
   });
 
-  describe('.cast()', function() {
+  describe('.cast()', () => {
 
-    it('Should work with standard errors and a message', function() {
+    it('Should work with standard errors and a message', () => {
       var err = YError.cast(new Error('This is an error!'));
 
       assert.equal(err.code, 'E_UNEXPECTED');
@@ -141,7 +143,7 @@ describe('YError', function() {
       assert.equal(err.name, err.toString());
     });
 
-    it('Should let YError instances pass through', function() {
+    it('Should let YError instances pass through', () => {
       var err = YError.cast(new YError('E_ERROR', 'arg1', 'arg2'));
 
       assert.equal(err.code, 'E_ERROR');
@@ -155,9 +157,9 @@ describe('YError', function() {
 
   });
 
-  describe('.bump()', function() {
+  describe('.bump()', () => {
 
-    it('Should work with standard errors and a message', function() {
+    it('Should work with standard errors and a message', () => {
       var err = YError.bump(new Error('This is an error!'));
 
       assert.equal(err.code, 'E_UNEXPECTED');
@@ -174,7 +176,7 @@ describe('YError', function() {
       assert.equal(err.name, err.toString());
     });
 
-    it('Should work with Y errors and a message', function() {
+    it('Should work with Y errors and a message', () => {
       var err = YError.bump(
         new YError('E_ERROR', 'arg1.1', 'arg1.2'),
         'E_ERROR_2', 'arg2.1', 'arg2.2'
