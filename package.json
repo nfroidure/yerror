@@ -4,11 +4,11 @@
   "description": "It helps to know why you got an error.",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha tests/*.mocha.js",
-    "coveralls": "istanbul cover _mocha --report lcovonly -- tests/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "cover": "istanbul cover --report html _mocha -- tests/*.mocha.js -R spec -t 5000",
+    "test": "mocha src/*.mocha.js && karma start karma.conf.js",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- src/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "cover": "istanbul cover --report html _mocha -- src/*.mocha.js -R spec -t 5000",
     "cli": "env NPM_RUN_CLI=1",
-    "lint": "eslint src/index.js tests/index.mocha.js",
+    "lint": "eslint src/*.js",
     "preversion": "npm run lint && npm test"
   },
   "engines": {
@@ -29,10 +29,17 @@
     "url": "https://github.com/SimpliField/yerror/issues"
   },
   "devDependencies": {
+    "browserify": "^14.4.0",
     "coveralls": "~2.11.2",
     "eslint": "^3.4.0",
     "eslint-config-simplifield": "^4.1.1",
     "istanbul": "^0.4.2",
+    "karma": "^1.7.0",
+    "karma-browserify": "^5.1.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-mocha": "^1.3.0",
+    "karma-sauce-launcher": "^1.1.0",
     "mocha": "^3.0.2",
     "mocha-lcov-reporter": "^1.0.0"
   },

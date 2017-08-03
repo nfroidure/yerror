@@ -46,15 +46,17 @@ describe('YError', () => {
       assert.equal(err.wrappedErrors.length, 1);
       assert.deepEqual(err.params, ['This is an error!']);
 
-      assert(
-        -1 !== err.stack.indexOf('Error: This is an error!'),
-        'Stack contains original error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_UNEXPECTED (This is an error!)'),
-        'Stack contains cast error.'
-      );
-      assert.equal(err.name, err.toString());
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('Error: This is an error!'),
+          'Stack contains original error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_UNEXPECTED (This is an error!)'),
+          'Stack contains cast error.'
+        );
+        assert.equal(err.name, err.toString());
+      }
     });
 
     it('Should work with standard errors and an error code', () => {
@@ -63,14 +65,17 @@ describe('YError', () => {
       assert.equal(err.code, 'E_ERROR');
       assert.equal(err.wrappedErrors.length, 1);
       assert.deepEqual(err.params, []);
-      assert(
-        -1 !== err.stack.indexOf('Error: E_ERROR'),
-        'Stack contains original error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_ERROR ()'),
-        'Stack contains cast error.'
-      );
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('Error: E_ERROR'),
+          'Stack contains original error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_ERROR ()'),
+          'Stack contains cast error.'
+        );
+      }
       assert.equal(err.name, err.toString());
     });
 
@@ -80,14 +85,17 @@ describe('YError', () => {
       assert.equal(err.code, 'E_ERROR_2');
       assert.equal(err.wrappedErrors.length, 1);
       assert.deepEqual(err.params, ['arg1', 'arg2']);
-      assert(
-        -1 !== err.stack.indexOf('Error: E_ERROR'),
-        'Stack contains first error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_ERROR_2 (arg1, arg2)'),
-        'Stack contains second error.'
-      );
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('Error: E_ERROR'),
+          'Stack contains first error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_ERROR_2 (arg1, arg2)'),
+          'Stack contains second error.'
+        );
+      }
       assert.equal(err.name, err.toString());
     });
 
@@ -107,18 +115,21 @@ describe('YError', () => {
       assert.equal(err.code, 'E_ERROR_3');
       assert.equal(err.wrappedErrors.length, 2);
       assert.deepEqual(err.params, ['arg3.1', 'arg3.2']);
-      assert(
-        -1 !== err.stack.indexOf('Error: E_ERROR_1'),
-        'Stack contains first error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_ERROR_2 (arg2.1, arg2.2)'),
-        'Stack contains second error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_ERROR_3 (arg3.1, arg3.2)'),
-        'Stack contains second error.'
-      );
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('Error: E_ERROR_1'),
+          'Stack contains first error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_ERROR_2 (arg2.1, arg2.2)'),
+          'Stack contains second error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_ERROR_3 (arg3.1, arg3.2)'),
+          'Stack contains second error.'
+        );
+      }
       assert.equal(err.name, err.toString());
     });
 
@@ -132,14 +143,17 @@ describe('YError', () => {
       assert.equal(err.code, 'E_UNEXPECTED');
       assert.equal(err.wrappedErrors.length, 1);
       assert.deepEqual(err.params, ['This is an error!']);
-      assert(
-        -1 !== err.stack.indexOf('Error: This is an error!'),
-        'Stack contains original error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_UNEXPECTED (This is an error!)'),
-        'Stack contains cast error.'
-      );
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('Error: This is an error!'),
+          'Stack contains original error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_UNEXPECTED (This is an error!)'),
+          'Stack contains cast error.'
+        );
+      }
       assert.equal(err.name, err.toString());
     });
 
@@ -148,10 +162,13 @@ describe('YError', () => {
 
       assert.equal(err.code, 'E_ERROR');
       assert.deepEqual(err.params, ['arg1', 'arg2']);
-      assert(
-        -1 !== err.stack.indexOf('YError: E_ERROR (arg1, arg2)'),
-        'Stack contains cast error.'
-      );
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('YError: E_ERROR (arg1, arg2)'),
+          'Stack contains cast error.'
+        );
+      }
       assert.equal(err.name, err.toString());
     });
 
@@ -165,14 +182,17 @@ describe('YError', () => {
       assert.equal(err.code, 'E_UNEXPECTED');
       assert.equal(err.wrappedErrors.length, 1);
       assert.deepEqual(err.params, ['This is an error!']);
-      assert(
-        -1 !== err.stack.indexOf('Error: This is an error!'),
-        'Stack contains original error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_UNEXPECTED (This is an error!)'),
-        'Stack contains bumped error.'
-      );
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('Error: This is an error!'),
+          'Stack contains original error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_UNEXPECTED (This is an error!)'),
+          'Stack contains bumped error.'
+        );
+      }
       assert.equal(err.name, err.toString());
     });
 
@@ -184,14 +204,17 @@ describe('YError', () => {
 
       assert.equal(err.code, 'E_ERROR');
       assert.deepEqual(err.params, ['arg1.1', 'arg1.2']);
-      assert(
-        -1 !== err.stack.indexOf('YError: E_ERROR (arg1.1, arg1.2)'),
-        'Stack contains original error.'
-      );
-      assert(
-        -1 !== err.stack.indexOf('YError: E_ERROR (arg1.1, arg1.2)'),
-        'Stack contains bumped error.'
-      );
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('YError: E_ERROR (arg1.1, arg1.2)'),
+          'Stack contains original error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_ERROR (arg1.1, arg1.2)'),
+          'Stack contains bumped error.'
+        );
+      }
       assert.equal(err.name, err.toString());
     });
 
