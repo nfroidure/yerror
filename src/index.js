@@ -14,13 +14,14 @@ function YError(errorCode) {
 
   // Call the parent constructor
   Error.call(this, errorCode);
-  Error.captureStackTrace(this, this.constructor);
 
   // Filling error
   this.code = errorCode || 'E_UNEXPECTED';
   this.params = [].slice.call(arguments, 1);
   this.wrappedErrors = [];
   this.name = this.toString();
+
+  Error.captureStackTrace(this, this.constructor);
 }
 
 util.inherits(YError, Error);
