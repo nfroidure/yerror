@@ -1,0 +1,2 @@
+dist/* binary -diff merge=ours
+dist/**/* binary -diff merge=ours

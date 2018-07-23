@@ -4,12 +4,14 @@
   "description": "It helps to know why you got an error.",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha src/*.mocha.js && karma start karma.conf.js",
-    "coveralls": "istanbul cover _mocha --report lcovonly -- src/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "cover": "istanbul cover --report html _mocha -- src/*.mocha.js -R spec -t 5000",
+    "build": "rm -rf dist && babel src -d dist && npm run test:build",
     "cli": "env NPM_RUN_CLI=1",
+    "cover": "istanbul cover --report html _mocha -- src/*.mocha.js -R spec -t 5000",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- src/*.mocha.js -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint src/*.js",
-    "preversion": "npm run lint && npm test"
+    "preversion": "npm run lint && npm build && npm test",
+    "test": "mocha src/*.mocha.js && karma start karma.conf.js",
+    "test:build": "mocha dist/**/*.mocha.js"
   },
   "engines": {
     "node": ">=6.0.0"
