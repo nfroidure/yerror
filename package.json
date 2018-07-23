@@ -2,7 +2,7 @@
   "name": "yerror",
   "version": "2.1.1",
   "description": "It helps to know why you got an error.",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && babel src -d dist && npm run test:build",
     "cli": "env NPM_RUN_CLI=1",
