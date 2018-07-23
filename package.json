@@ -1,6 +1,6 @@
 {
   "name": "yerror",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "It helps to know why you got an error.",
   "main": "dist/index.js",
   "scripts": {
