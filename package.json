@@ -31,9 +31,10 @@
     "url": "https://github.com/SimpliField/yerror/issues"
   },
   "devDependencies": {
-    "browserify": "^14.4.0",
     "babel-cli": "^6.24.1",
+    "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-preset-es2015": "^6.24.1",
+    "browserify": "^14.4.0",
     "coveralls": "~2.11.2",
     "eslint": "^3.4.0",
     "eslint-config-simplifield": "^4.1.1",
