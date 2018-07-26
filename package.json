@@ -11,7 +11,7 @@
     "lint": "eslint src/*.js",
     "preversion": "npm run lint && npm build && npm test",
     "test": "mocha src/*.mocha.js && karma start karma.conf.js",
-    "test:build": "mocha dist/**/*.mocha.js"
+    "test:build": "mocha dist/*.mocha.js"
   },
   "engines": {
     "node": ">=6.0.0"
