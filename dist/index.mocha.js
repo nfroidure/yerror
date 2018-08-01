@@ -2,7 +2,7 @@
 'use strict';
 
 var assert = require('assert');
-var YError = require('../src');
+var YError = require('./index.js');
 
 describe('YError', function () {
 
