@@ -33,6 +33,7 @@ class YError extends Error {
   toString() {
     return (
       this.wrappedErrors.length ?
+      // eslint-disable-next-line
       this.wrappedErrors[this.wrappedErrors.length - 1].stack + os.EOL :
       ''
     ) +
