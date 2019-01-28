@@ -107,17 +107,27 @@ YError.wrap = function yerrorWrap(err, errorCode) {
   return yError;
 };
 
-YError.cast = function yerrorCast(err, params) {
+YError.cast = function yerrorCast(err) {
   if (err instanceof YError) {
     return err;
   }
+
+  for (var _len3 = arguments.length, params = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+    params[_key3 - 1] = arguments[_key3];
+  }
+
   return YError.wrap.apply(YError, [err].concat(params));
 };
 
-YError.bump = function yerrorBump(err, params) {
+YError.bump = function yerrorBump(err) {
   if (err instanceof YError) {
     return YError.wrap.apply(YError, [err, err.code].concat(err.params));
   }
+
+  for (var _len4 = arguments.length, params = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+    params[_key4 - 1] = arguments[_key4];
+  }
+
   return YError.wrap.apply(YError, [err].concat(params));
 };
 

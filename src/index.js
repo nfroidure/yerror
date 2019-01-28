@@ -61,14 +61,14 @@ YError.wrap = function yerrorWrap(err, errorCode, ...params) {
   return yError;
 };
 
-YError.cast = function yerrorCast(err, params) {
+YError.cast = function yerrorCast(err, ...params) {
   if(err instanceof YError) {
     return err;
   }
   return YError.wrap.apply(YError, [err].concat(params));
 };
 
-YError.bump = function yerrorBump(err, params) {
+YError.bump = function yerrorBump(err, ...params) {
   if(err instanceof YError) {
     return YError.wrap.apply(YError, [err, err.code].concat(err.params));
   }
