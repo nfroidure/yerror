@@ -196,6 +196,31 @@ describe('YError', () => {
       assert.equal(err.name, err.toString());
     });
 
+    it('Should work with YError like errors', () => {
+      var baseErr = new Error('E_A_NEW_ERROR');
+
+      baseErr.code = 'E_A_NEW_ERROR';
+      baseErr.params = ['baseParam1', 'baseParam2'];
+
+      var err = YError.bump(baseErr);
+
+      assert.equal(err.code, 'E_A_NEW_ERROR');
+      assert.equal(err.wrappedErrors.length, 1);
+      assert.deepEqual(err.params, ['baseParam1', 'baseParam2']);
+
+      if(Error.captureStackTrace) {
+        assert(
+          -1 !== err.stack.indexOf('Error: E_A_NEW_ERROR'),
+          'Stack contains original error.'
+        );
+        assert(
+          -1 !== err.stack.indexOf('YError: E_A_NEW_ERROR (baseParam1, baseParam2)'),
+          'Stack contains bumped error.'
+        );
+      }
+      assert.equal(err.name, err.toString());
+    });
+
     it('Should work with Y errors and a message', () => {
       var err = YError.bump(
         new YError('E_ERROR', 'arg1.1', 'arg1.2'),
