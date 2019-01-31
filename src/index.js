@@ -45,7 +45,7 @@ class YError extends Error {
 // Wrap a classic error
 YError.wrap = function yerrorWrap(err, errorCode, ...params) {
   let yError = null;
-  const wrappedErrorIsACode = (/^([A-Z0-9_]+)$/).test(err.message);
+  const wrappedErrorIsACode = _looksLikeAYErrorCode(err.message);
   const wrappedErrors = (err.wrappedErrors || []).concat(err);
 
   if(!errorCode) {
@@ -63,17 +63,33 @@ YError.wrap = function yerrorWrap(err, errorCode, ...params) {
 };
 
 YError.cast = function yerrorCast(err, ...params) {
-  if(err instanceof YError) {
+  if(_looksLikeAYError(err)) {
     return err;
   }
   return YError.wrap.apply(YError, [err].concat(params));
 };
 
 YError.bump = function yerrorBump(err, ...params) {
-  if(err instanceof YError) {
+  if(_looksLikeAYError(err)) {
     return YError.wrap.apply(YError, [err, err.code].concat(err.params));
   }
   return YError.wrap.apply(YError, [err].concat(params));
 };
+
+// In order to keep compatibility through major versions
+// we have to make kind of an cross major version instanceof
+function _looksLikeAYError(err) {
+  return err instanceof YError || (
+     err.constructor &&
+     err.constructor.name &&
+     err.constructor.name.endsWith('Error') &&
+    'string' === typeof err.code && _looksLikeAYErrorCode(err.code) &&
+    err.params && err.params instanceof Array
+  );
+}
+
+function _looksLikeAYErrorCode(str) {
+  return (/^([A-Z0-9_]+)$/).test(str);
+}
 
 module.exports = YError;

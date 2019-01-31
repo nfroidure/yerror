@@ -73,7 +73,9 @@ var YError = function (_extendableBuiltin2) {
   _createClass(YError, [{
     key: 'toString',
     value: function toString() {
-      return (this.wrappedErrors.length ? this.wrappedErrors[this.wrappedErrors.length - 1].stack + os.EOL : '') + this.constructor.name + ': ' + this.code + ' (' + this.params.join(', ') + ')';
+      return (this.wrappedErrors.length ?
+      // eslint-disable-next-line
+      this.wrappedErrors[this.wrappedErrors.length - 1].stack + os.EOL : '') + this.constructor.name + ': ' + this.code + ' (' + this.params.join(', ') + ')';
     }
   }]);
 
@@ -85,7 +87,7 @@ var YError = function (_extendableBuiltin2) {
 
 YError.wrap = function yerrorWrap(err, errorCode) {
   var yError = null;
-  var wrappedErrorIsACode = /^([A-Z0-9_]+)$/.test(err.message);
+  var wrappedErrorIsACode = _looksLikeAYErrorCode(err.message);
   var wrappedErrors = (err.wrappedErrors || []).concat(err);
 
   if (!errorCode) {
@@ -108,7 +110,7 @@ YError.wrap = function yerrorWrap(err, errorCode) {
 };
 
 YError.cast = function yerrorCast(err) {
-  if (err instanceof YError) {
+  if (_looksLikeAYError(err)) {
     return err;
   }
 
@@ -120,7 +122,7 @@ YError.cast = function yerrorCast(err) {
 };
 
 YError.bump = function yerrorBump(err) {
-  if (err instanceof YError) {
+  if (_looksLikeAYError(err)) {
     return YError.wrap.apply(YError, [err, err.code].concat(err.params));
   }
 
@@ -130,5 +132,16 @@ YError.bump = function yerrorBump(err) {
 
   return YError.wrap.apply(YError, [err].concat(params));
 };
+
+// In order to keep compatibility through major versions
+// we have to make kind of an cross major version instanceof
+function _looksLikeAYError(err) {
+  return err instanceof YError || err.constructor && err.constructor.name && err.constructor.name.endsWith('Error') && 'string' === typeof err.code && _looksLikeAYErrorCode(err.code) && err.params && err.params instanceof Array;
+}
+
+function _looksLikeAYErrorCode(str) {
+  return (/^([A-Z0-9_]+)$/.test(str)
+  );
+}
 
 module.exports = YError;
