@@ -202,7 +202,7 @@ describe('YError', () => {
       baseErr.code = 'E_A_NEW_ERROR';
       baseErr.params = ['baseParam1', 'baseParam2'];
 
-      var err = YError.bump(baseErr);
+      let err = YError.bump(baseErr);
 
       assert.equal(err.code, 'E_A_NEW_ERROR');
       assert.equal(err.wrappedErrors.length, 1);

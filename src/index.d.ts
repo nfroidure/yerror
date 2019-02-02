@@ -1,6 +1,6 @@
 declare class YError extends Error {
   constructor(errorCode: string, ...params: any[]);
-  constructor<E extends Error>(wrappedErrors?: E[], errorCode?: string, ...params: any[]);
+  constructor(wrappedErrors?: Error[], errorCode?: string, ...params: any[]);
   code: string;
   params: any[];
   static wrap<E extends Error>(
