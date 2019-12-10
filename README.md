@@ -2,7 +2,7 @@
 > Better errors for your NodeJS code.
 
 
-[![NPM version](https://badge.fury.io/js/yerror.svg)](https://npmjs.org/package/yerror) [![Build status](https://secure.travis-ci.org/SimpliField/yerror.png)](https://travis-ci.org/SimpliField/yerror) [![Dependency Status](https://david-dm.org/SimpliField/yerror/status.svg)](https://david-dm.org/SimpliField/yerror) [![devDependency Status](https://david-dm.org/SimpliField/yerror/dev-status.svg)](https://david-dm.org/SimpliField/yerror#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/SimpliField/yerror/badge.svg?branch=master)](https://coveralls.io/r/SimpliField/yerror?branch=master) [![Code Climate](https://codeclimate.com/github/SimpliField/yerror.png)](https://codeclimate.com/github/SimpliField/yerror)
+[![NPM version](https://badge.fury.io/js/yerror.svg)](https://npmjs.org/package/yerror) [![Build status](https://secure.travis-ci.org/nfroidure/yerror.png)](https://travis-ci.org/nfroidure/yerror) [![Dependency Status](https://david-dm.org/nfroidure/yerror/status.svg)](https://david-dm.org/nfroidure/yerror) [![devDependency Status](https://david-dm.org/nfroidure/yerror/dev-status.svg)](https://david-dm.org/nfroidure/yerror#info=devDependencies) [![Coverage Status](https://coveralls.io/repos/nfroidure/yerror/badge.svg?branch=master)](https://coveralls.io/r/nfroidure/yerror?branch=master) [![Code Climate](https://codeclimate.com/github/nfroidure/yerror.png)](https://codeclimate.com/github/nfroidure/yerror)
 
 ## Usage
 
@@ -25,8 +25,8 @@ doSomething('nuts', 'code');
 
 
 // YError: E_BAD_PAY (nuts, code)
-//   at doSomething (/home/nfroidure/simplifield/yerror/test.js:5:11)
-//   at Object.<anonymous> (/home/nfroidure/simplifield/yerror/test.js:9:1)
+//   at doSomething (/home/nfroidure/nfroidure/yerror/test.js:5:11)
+//   at Object.<anonymous> (/home/nfroidure/nfroidure/yerror/test.js:9:1)
 //   (...)
 
 ```
@@ -54,12 +54,12 @@ doSomethingAsync('nuts', 'code')
   });
 
 // YError: E_BAD_PAY (nuts, code)
-//    at doSomething (/home/nfroidure/simplifield/yerror/test.js:5:11)
+//    at doSomething (/home/nfroidure/nfroidure/yerror/test.js:5:11)
 //    (...)
 // YError: E_BAD_TRANSACTION (pay)
-//    at Function.YError.wrap (/home/nfroidure/simplifield/yerror/src/index.js:41:12)
-//    at /home/nfroidure/simplifield/yerror/test.js:16:21
-//    at doSomethingAsync (/home/nfroidure/simplifield/yerror/test.js:11:11)
+//    at Function.YError.wrap (/home/nfroidure/nfroidure/yerror/src/index.js:41:12)
+//    at /home/nfroidure/nfroidure/yerror/test.js:16:21
+//    at doSomethingAsync (/home/nfroidure/nfroidure/yerror/test.js:11:11)
 //    (...)
 
 
