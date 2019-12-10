@@ -1,6 +1,6 @@
 {
   "name": "yerror",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "It helps to know why you got an error.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
