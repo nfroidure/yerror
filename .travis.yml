@@ -9,5 +9,3 @@ before_install:
   - export CHROME_BIN=chromium-browser
 services:
   - xvfb
-
-secure: "C/nhSFLipisvngls53qDq/2CHTLFBGmlVfepiBK07dkjtvT41bknDiGjoAKpOs+FUHW1DTmlDivQZbzaXtnp1r8uN4JKjaLkLhpim9R6RkiXrVLxA43ar0fJjeYggVXCxAMPCtB3Wl/Y2mRN8QhNUaSrQHd5+CDJgxds45LPe84="
