@@ -1,6 +1,6 @@
 {
   "name": "yerror",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "It helps to know why you got an error.",
   "main": "dist/index",
   "module": "dist/index.mjs",
