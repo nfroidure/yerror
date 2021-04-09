@@ -1,6 +1,6 @@
 /* eslint max-nested-callbacks:[0], no-magic-numbers:[0] */
-var assert = require('assert');
-var YError = require('./index.js');
+import assert from 'assert';
+import YError from '.';
 
 describe('YError', () => {
   describe('.__constructor', () => {

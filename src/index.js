@@ -1,7 +1,19 @@
-const os = require('os');
+import os from 'os';
 
-// Create an Error able to contain some params and better stack traces
+/**
+ * An YError class able to contain some params and
+ *  print better stack traces
+ * @extends Error
+ */
 class YError extends Error {
+  /**
+   * Creates a new YError with an error code
+   *  and some params as debug values.
+   * @param {string} [errorCode = 'E_UNEXPECTED']
+   * The error code corresponding to the actual error
+   * @param {...any} [params]
+   * Some additional debugging values
+   */
   constructor(wrappedErrors, errorCode, ...params) {
     // Detecting if wrappedErrors are passed
     if (!(wrappedErrors instanceof Array)) {
@@ -42,7 +54,18 @@ class YError extends Error {
   }
 }
 
-// Wrap a classic error
+/**
+ * Wraps any error and output a YError with an error
+ *  code and some params as debug values.
+ * @param {Error} err
+ * The error to wrap
+ * @param {string} [errorCode = 'E_UNEXPECTED']
+ * The error code corresponding to the actual error
+ * @param {...any} [params]
+ * Some additional debugging values
+ * @return {YError}
+ * The wrapped error
+ */
 YError.wrap = function yerrorWrap(err, errorCode, ...params) {
   let yError = null;
   const wrappedErrorIsACode = _looksLikeAYErrorCode(err.message);
@@ -62,6 +85,18 @@ YError.wrap = function yerrorWrap(err, errorCode, ...params) {
   return yError;
 };
 
+/**
+ * Return a YError as is or wraps any other error and output
+ *  a YError with a code and some params as debug values.
+ * @param {Error} err
+ * The error to cast
+ * @param {string} [errorCode = 'E_UNEXPECTED']
+ * The error code corresponding to the actual error
+ * @param {...any} [params]
+ * Some additional debugging values
+ * @return {YError}
+ * The wrapped error
+ */
 YError.cast = function yerrorCast(err, ...params) {
   if (_looksLikeAYError(err)) {
     return err;
@@ -69,6 +104,19 @@ YError.cast = function yerrorCast(err, ...params) {
   return YError.wrap.apply(YError, [err].concat(params));
 };
 
+/**
+ * Same than `YError.wrap()` but preserves the code
+ *  and the debug values of the error if it is
+ *  already an instance of the YError constructor.
+ * @param {Error} err
+ * The error to bump
+ * @param {string} [errorCode = 'E_UNEXPECTED']
+ * The error code corresponding to the actual error
+ * @param {...any} [params]
+ * Some additional debugging values
+ * @return {YError}
+ * The wrapped error
+ */
 YError.bump = function yerrorBump(err, ...params) {
   if (_looksLikeAYError(err)) {
     return YError.wrap.apply(YError, [err, err.code].concat(err.params));
@@ -95,4 +143,4 @@ function _looksLikeAYErrorCode(str) {
   return /^([A-Z0-9_]+)$/.test(str);
 }
 
-module.exports = YError;
+export default YError;
