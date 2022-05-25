@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 
 const SAUCE_TIMEOUT = 240000;
 
-module.exports = function buildKarmeConf(config) {
+module.exports = function buildKarmaConf(config) {
   const baseConfig = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',

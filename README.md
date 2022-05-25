@@ -10,11 +10,6 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/yerror/blob/master/LICENSE)
 [![Build status](https://travis-ci.com/git://github.com/nfroidure/yerror.git.svg?branch=master)](https://travis-ci.com/github/git://github.com/nfroidure/yerror.git)
 [![Coverage Status](https://coveralls.io/repos/github/git://github.com/nfroidure/yerror.git/badge.svg?branch=master)](https://coveralls.io/github/git://github.com/nfroidure/yerror.git?branch=master)
-[![NPM version](https://badge.fury.io/js/yerror.svg)](https://npmjs.org/package/yerror)
-[![Dependency Status](https://david-dm.org/nfroidure/yerror.svg)](https://david-dm.org/nfroidure/yerror)
-[![devDependency Status](https://david-dm.org/nfroidure/yerror/dev-status.svg)](https://david-dm.org/nfroidure/yerror#info=devDependencies)
-[![Package Quality](https://npm.packagequality.com/shield/yerror.svg)](https://packagequality.com/#?package=yerror)
-[![Code Climate](https://codeclimate.com/github/git://github.com/nfroidure/yerror.git.svg)](https://codeclimate.com/github/git://github.com/nfroidure/yerror.git)
 
 
 [//]: # (::contents:start)
