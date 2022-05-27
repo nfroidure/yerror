@@ -20,4 +20,5 @@ declare class YError extends Error {
   ): YError;
 }
 
+export { YError };
 export default YError;
