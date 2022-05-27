@@ -144,3 +144,4 @@ function _looksLikeAYErrorCode(str) {
 }
 
 export default YError;
+export { YError };
