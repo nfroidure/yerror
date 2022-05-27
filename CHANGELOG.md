@@ -1,3 +1,12 @@
+## [6.1.1](https://github.com/nfroidure/yerror/compare/v6.1.0...v6.1.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* **types:** fix types declarations ([b068701](https://github.com/nfroidure/yerror/commit/b0687012a769dd6f560fd4342a66907c8834301a))
+
+
+
 # [6.1.0](https://github.com/nfroidure/yerror/compare/v6.0.2...v6.1.0) (2022-05-27)
 
 
