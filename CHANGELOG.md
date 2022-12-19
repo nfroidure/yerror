@@ -1,3 +1,7 @@
+# [6.2.0](https://github.com/nfroidure/yerror/compare/v6.1.1...v6.2.0) (2022-12-19)
+
+
+
 ## [6.1.1](https://github.com/nfroidure/yerror/compare/v6.1.0...v6.1.1) (2022-05-27)
 
 
