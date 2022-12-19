@@ -133,8 +133,8 @@ YError.bump = function yerrorBump(err, ...params) {
  * The stack trace if any
  */
 export function printStackTrace(err) {
-  return typeof err === 'object' && typeof err.stack === 'function'
-    ? err.stack()
+  return typeof err === 'object' && typeof err.stack === 'string'
+    ? err.stack
     : `[no_stack_trace]: error is ${
         err != null && typeof err.toString === 'function'
           ? err.toString()
