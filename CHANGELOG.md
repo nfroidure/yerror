@@ -1,3 +1,12 @@
+## [6.2.1](https://github.com/nfroidure/yerror/compare/v6.2.0...v6.2.1) (2022-12-19)
+
+
+### Bug Fixes
+
+* **lib:** fix stack printing ([edf5fd3](https://github.com/nfroidure/yerror/commit/edf5fd32126a1689863cc995859243251d25c8b4))
+
+
+
 # [6.2.0](https://github.com/nfroidure/yerror/compare/v6.1.1...v6.2.0) (2022-12-19)
 
 
