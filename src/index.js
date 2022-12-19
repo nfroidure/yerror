@@ -124,6 +124,24 @@ YError.bump = function yerrorBump(err, ...params) {
   return YError.wrap.apply(YError, [err].concat(params));
 };
 
+/**
+ * Allow to print a stack from anything (especially catched
+ *  errors that may or may not contain errors 🤷).
+ * @param {Error} err
+ * The error to print
+ * @return {string}
+ * The stack trace if any
+ */
+export function printStackTrace(err) {
+  return typeof err === 'object' && typeof err.stack === 'function'
+    ? err.stack()
+    : `[no_stack_trace]: error is ${
+        err != null && typeof err.toString === 'function'
+          ? err.toString()
+          : typeof err
+      }`;
+}
+
 // In order to keep compatibility through major versions
 // we have to make kind of an cross major version instanceof
 function _looksLikeAYError(err) {

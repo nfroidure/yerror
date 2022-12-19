@@ -20,5 +20,7 @@ declare class YError extends Error {
   ): YError;
 }
 
+export function printStackTrace(err: any): string;
+
 export { YError };
 export default YError;

@@ -1,4 +1,22 @@
 # API
+## Classes
+
+<dl>
+<dt><a href="#YError">YError</a> ⇐ <code>Error</code></dt>
+<dd><p>An YError class able to contain some params and
+ print better stack traces</p>
+</dd>
+</dl>
+
+## Functions
+
+<dl>
+<dt><a href="#printStackTrace">printStackTrace(err)</a> ⇒ <code>string</code></dt>
+<dd><p>Allow to print a stack from anything (especially catched
+ errors that may or may not contain errors 🤷).</p>
+</dd>
+</dl>
+
 <a name="YError"></a>
 
 ## YError ⇐ <code>Error</code>
@@ -71,4 +89,17 @@ Same than `YError.wrap()` but preserves the code
 | err | <code>Error</code> |  | The error to bump |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
 | [...params] | <code>any</code> |  | Some additional debugging values |
+
+<a name="printStackTrace"></a>
+
+## printStackTrace(err) ⇒ <code>string</code>
+Allow to print a stack from anything (especially catched
+ errors that may or may not contain errors 🤷).
+
+**Kind**: global function  
+**Returns**: <code>string</code> - The stack trace if any  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>Error</code> | The error to print |
 
