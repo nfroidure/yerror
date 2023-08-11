@@ -7,9 +7,8 @@
 # yerror
 > It helps to know why you got an error.
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/yerror/blob/master/LICENSE)
-[![Build status](https://travis-ci.com/git://github.com/nfroidure/yerror.git.svg?branch=master)](https://travis-ci.com/github/git://github.com/nfroidure/yerror.git)
-[![Coverage Status](https://coveralls.io/repos/github/git://github.com/nfroidure/yerror.git/badge.svg?branch=master)](https://coveralls.io/github/git://github.com/nfroidure/yerror.git?branch=master)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/yerror/blob/main/LICENSE)
+[![Coverage Status](https://coveralls.io/repos/github/git://github.com/nfroidure/yerror.git/badge.svg?branch=main)](https://coveralls.io/github/git://github.com/nfroidure/yerror.git?branch=main)
 
 
 [//]: # (::contents:start)
@@ -80,7 +79,7 @@ doSomethingAsync('nuts', 'code')
 
 <dl>
 <dt><a href="#YError">YError</a> ⇐ <code>Error</code></dt>
-<dd><p>An YError class able to contain some params and
+<dd><p>A YError class able to contain some params and
  print better stack traces</p>
 </dd>
 </dl>
@@ -97,29 +96,16 @@ doSomethingAsync('nuts', 'code')
 <a name="YError"></a>
 
 ## YError ⇐ <code>Error</code>
-An YError class able to contain some params and
+A YError class able to contain some params and
  print better stack traces
 
 **Kind**: global class  
 **Extends**: <code>Error</code>  
 
 * [YError](#YError) ⇐ <code>Error</code>
-    * [new YError([errorCode], [...params])](#new_YError_new)
     * [.wrap(err, [errorCode], [...params])](#YError.wrap) ⇒ [<code>YError</code>](#YError)
     * [.cast(err, [errorCode], [...params])](#YError.cast) ⇒ [<code>YError</code>](#YError)
     * [.bump(err, [errorCode], [...params])](#YError.bump) ⇒ [<code>YError</code>](#YError)
-
-<a name="new_YError_new"></a>
-
-### new YError([errorCode], [...params])
-Creates a new YError with an error code
- and some params as debug values.
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [...params] | <code>any</code> |  | Some additional debugging values |
 
 <a name="YError.wrap"></a>
 
@@ -134,7 +120,7 @@ Wraps any error and output a YError with an error
 | --- | --- | --- | --- |
 | err | <code>Error</code> |  | The error to wrap |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [...params] | <code>any</code> |  | Some additional debugging values |
+| [...params] | <code>YErrorParams</code> |  | Some additional debugging values |
 
 <a name="YError.cast"></a>
 
@@ -149,7 +135,7 @@ Return a YError as is or wraps any other error and output
 | --- | --- | --- | --- |
 | err | <code>Error</code> |  | The error to cast |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [...params] | <code>any</code> |  | Some additional debugging values |
+| [...params] | <code>YErrorParams</code> |  | Some additional debugging values |
 
 <a name="YError.bump"></a>
 
@@ -165,7 +151,7 @@ Same than `YError.wrap()` but preserves the code
 | --- | --- | --- | --- |
 | err | <code>Error</code> |  | The error to bump |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [...params] | <code>any</code> |  | Some additional debugging values |
+| [...params] | <code>YErrorParams</code> |  | Some additional debugging values |
 
 <a name="printStackTrace"></a>
 
@@ -185,4 +171,4 @@ Allow to print a stack from anything (especially catched
 - [Nicolas Froidure (formerly at SimpliField)](http://insertafter.com/en/index.html)
 
 # License
-[MIT](https://github.com/nfroidure/yerror/blob/master/LICENSE)
+[MIT](https://github.com/nfroidure/yerror/blob/main/LICENSE)
