@@ -24,7 +24,7 @@
     }
   },
   "name": "yerror",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "It helps to know why you got an error.",
   "scripts": {
     "build": "rimraf 'dist' && tsc --outDir dist",
