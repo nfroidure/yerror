@@ -1,47 +1,35 @@
-import os from 'os';
+import { EOL } from 'node:os';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type YErrorParams = any;
+export type YErrorDebugValue = unknown;
 
 /**
- * A YError class able to contain some params and
+ * A YError class able to contain some debugValues and
  *  print better stack traces
  * @extends Error
  */
-class YError extends Error {
+class YError<T = YErrorDebugValue> extends Error {
   code: string;
-  params: YErrorParams[];
-  wrappedErrors: (Error | YError)[];
+  debugValues: T[] = [];
+  wrappedErrors: (Error | YError)[] = [];
   /**
    * Creates a new YError with an error code
-   *  and some params as debug values.
+   *  and some debugValues as debug values.
    * @param {string} [errorCode = 'E_UNEXPECTED']
    * The error code corresponding to the actual error
-   * @param {...YErrorParams} [params]
+   * @param {any} [debugValues]
    * Some additional debugging values
    */
-  constructor(errorCode: string, ...params: YErrorParams[]);
   constructor(
-    wrappedErrors?: Error[],
     errorCode?: string,
-    ...params: YErrorParams[]
-  );
-  constructor(wrappedErrors, errorCode, ...params) {
-    // Detecting if wrappedErrors are passed
-    if (!(wrappedErrors instanceof Array)) {
-      params = ('undefined' === typeof errorCode ? [] : [errorCode]).concat(
-        params,
-      );
-      errorCode = wrappedErrors;
-      wrappedErrors = [];
-    }
-
+    debugValues: T[] = [],
+    wrappedErrors: (Error | YError)[] = [],
+  ) {
     // Call the parent constructor
     super(errorCode);
 
     // Filling error
     this.code = errorCode || 'E_UNEXPECTED';
-    this.params = params;
+    this.debugValues = debugValues;
     this.wrappedErrors = wrappedErrors;
     this.name = this.toString();
 
@@ -52,22 +40,22 @@ class YError extends Error {
 
   /**
    * Wraps any error and output a YError with an error
-   *  code and some params as debug values.
+   *  code and some debugValues as debug values.
    * @param {Error} err
    * The error to wrap
    * @param {string} [errorCode = 'E_UNEXPECTED']
    * The error code corresponding to the actual error
-   * @param {...YErrorParams} [params]
+   * @param {any} [debugValues]
    * Some additional debugging values
    * @return {YError}
    * The wrapped error
    */
-  static wrap<E extends Error | YError>(
-    err: E,
+  static wrap<T = YErrorDebugValue>(
+    err: Error | YError,
     errorCode?: string,
-    ...params: YErrorParams[]
+    debugValues: T[] = [],
   ): YError {
-    const wrappedErrorIsACode = _looksLikeAYErrorCode(err.message);
+    const wrappedErrorIsACode = looksLikeAYErrorCode(err.message);
     const wrappedErrors = (
       'wrappedErrors' in err ? err.wrappedErrors : []
     ).concat(err);
@@ -79,33 +67,31 @@ class YError extends Error {
         errorCode = 'E_UNEXPECTED';
       }
     }
-    if (err.message && !wrappedErrorIsACode) {
-      params.push(err.message);
-    }
-    return new YError(wrappedErrors, errorCode, ...params);
+
+    return new YError(errorCode, debugValues, wrappedErrors);
   }
 
   /**
    * Return a YError as is or wraps any other error and output
-   *  a YError with a code and some params as debug values.
+   *  a YError with a code and some debugValues as debug values.
    * @param {Error} err
    * The error to cast
    * @param {string} [errorCode = 'E_UNEXPECTED']
    * The error code corresponding to the actual error
-   * @param {...YErrorParams} [params]
+   * @param {any} [debugValues]
    * Some additional debugging values
    * @return {YError}
    * The wrapped error
    */
-  static cast<E extends Error | YError>(
-    err: E,
+  static cast<T = YErrorDebugValue>(
+    err: Error | YError,
     errorCode?: string,
-    ...params: YErrorParams[]
+    debugValues: T[] = [],
   ): YError {
-    if (_looksLikeAYError(err)) {
-      return err as unknown as YError;
+    if (looksLikeAYError(err)) {
+      return err;
     }
-    return YError.wrap(err, errorCode, ...params);
+    return YError.wrap(err, errorCode, debugValues);
   }
 
   /**
@@ -116,40 +102,41 @@ class YError extends Error {
    * The error to bump
    * @param {string} [errorCode = 'E_UNEXPECTED']
    * The error code corresponding to the actual error
-   * @param {...YErrorParams} [params]
+   * @param {any} [debugValues]
    * Some additional debugging values
    * @return {YError}
    * The wrapped error
    */
-  static bump<E extends Error | YError>(
-    err: E,
+  static bump<T = YErrorDebugValue>(
+    err: Error | YError,
     errorCode?: string,
-    ...params: YErrorParams[]
+    debugValues: T[] = [],
   ): YError {
-    if (_looksLikeAYError(err)) {
-      return YError.wrap(err, (err as YError).code, ...(err as YError).params);
+    if (looksLikeAYError(err)) {
+      return YError.wrap(err, err.code, err.debugValues);
     }
-    return YError.wrap(err, errorCode, ...params);
+    return YError.wrap(err, errorCode, debugValues);
   }
 
   toString(): string {
-    return (
-      (this.wrappedErrors.length
-        ? // eslint-disable-next-line
-          this.wrappedErrors[this.wrappedErrors.length - 1].stack + os.EOL
-        : '') +
-      this.constructor.name +
-      ': ' +
-      this.code +
-      ' (' +
-      this.params.join(', ') +
-      ')'
-    );
+    let debugValuesAsString: string;
+
+    try {
+      debugValuesAsString = JSON.stringify(this.debugValues);
+    } catch {
+      debugValuesAsString = '<circular>';
+    }
+
+    return `${
+      this.wrappedErrors.length
+        ? this.wrappedErrors[this.wrappedErrors.length - 1].stack + EOL
+        : ''
+    }${this.constructor.name}: ${this.code} (${debugValuesAsString})`;
   }
 }
 
 /**
- * Allow to print a stack from anything (especially catched
+ * Allow to print a stack from anything (especially caught
  *  errors that may or may not contain errors 🤷).
  * @param {Error} err
  * The error to print
@@ -167,8 +154,8 @@ export function printStackTrace(err: Error | YError): string {
 }
 
 // In order to keep compatibility through major versions
-// we have to make kind of an cross major version instanceof
-function _looksLikeAYError(err: Error | YError): boolean {
+// we have to make kind of a cross major version instanceof
+export function looksLikeAYError(err: Error | YError): err is YError {
   return (
     !!(err instanceof YError) ||
     !!(
@@ -177,15 +164,15 @@ function _looksLikeAYError(err: Error | YError): boolean {
       err.constructor.name.endsWith('Error') &&
       'code' in err &&
       'string' === typeof err.code &&
-      _looksLikeAYErrorCode(err.code) &&
-      'params' in err &&
-      err.params &&
-      err.params instanceof Array
+      looksLikeAYErrorCode(err.code) &&
+      'debugValues' in err &&
+      err.debugValues &&
+      err.debugValues instanceof Array
     )
   );
 }
 
-function _looksLikeAYErrorCode(str: string): boolean {
+export function looksLikeAYErrorCode(str: string): boolean {
   return /^([A-Z0-9_]+)$/.test(str);
 }
 
