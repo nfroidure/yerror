@@ -28,6 +28,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Validate commit messages
-        run: node --run commitlint -- --from=HEAD~1
+        run: node --run commitlint -- --last
       - name: Run pre-commit tests
         run: node --run precommit

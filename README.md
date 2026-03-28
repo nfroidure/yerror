@@ -90,6 +90,12 @@ doSomethingAsync('nuts', 'code')
 <dd><p>Allow to print a stack from anything (especially caught
  errors that may or may not contain errors 🤷).</p>
 </dd>
+<dt><a href="#hasYErrorCode">hasYErrorCode(err, code)</a> ⇒ <code>boolean</code></dt>
+<dd><p>Allow to check a YError code and cast the error.</p>
+</dd>
+<dt><a href="#pickYErrorWithCode">pickYErrorWithCode(err, code)</a> ⇒ <code>boolean</code></dt>
+<dd><p>Allow to check all errors for a YError code and return the casted the error.</p>
+</dd>
 </dl>
 
 <a name="YError"></a>
@@ -177,6 +183,32 @@ Allow to print a stack from anything (especially caught
 | Param | Type | Description |
 | --- | --- | --- |
 | err | <code>Error</code> | The error to print |
+
+<a name="hasYErrorCode"></a>
+
+## hasYErrorCode(err, code) ⇒ <code>boolean</code>
+Allow to check a YError code and cast the error.
+
+**Kind**: global function  
+**Returns**: <code>boolean</code> - The result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>Error</code> | The error to cast |
+| code | <code>Error</code> | The code to check |
+
+<a name="pickYErrorWithCode"></a>
+
+## pickYErrorWithCode(err, code) ⇒ <code>boolean</code>
+Allow to check all errors for a YError code and return the casted the error.
+
+**Kind**: global function  
+**Returns**: <code>boolean</code> - The result  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>Error</code> | The error to cast |
+| code | <code>Error</code> | The code to check |
 
 
 # Authors

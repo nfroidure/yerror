@@ -1,15 +1,15 @@
 import { EOL } from 'node:os';
 
-export type YErrorDebugValue = unknown;
+export type YErrorDebugValue = unknown[];
 
 /**
  * A YError class able to contain some debugValues and
  *  print better stack traces
  * @extends Error
  */
-class YError<T = YErrorDebugValue> extends Error {
+class YError<T extends unknown[] = YErrorDebugValue> extends Error {
   code: string;
-  debugValues: T[] = [];
+  debugValues: T = [] as unknown as T;
   wrappedErrors: (Error | YError)[] = [];
   /**
    * Creates a new YError with an error code
@@ -21,7 +21,7 @@ class YError<T = YErrorDebugValue> extends Error {
    */
   constructor(
     errorCode?: string,
-    debugValues: T[] = [],
+    debugValues: T = [] as unknown as T,
     wrappedErrors: (Error | YError)[] = [],
   ) {
     // Call the parent constructor
@@ -50,15 +50,15 @@ class YError<T = YErrorDebugValue> extends Error {
    * @return {YError}
    * The wrapped error
    */
-  static wrap<T = YErrorDebugValue>(
+  static wrap<T extends unknown[] = YErrorDebugValue>(
     err: Error | YError,
     errorCode?: string,
-    debugValues: T[] = [],
+    debugValues: T = [] as unknown as T,
   ): YError {
     const wrappedErrorIsACode = looksLikeAYErrorCode(err.message);
     const wrappedErrors = (
       'wrappedErrors' in err ? err.wrappedErrors : []
-    ).concat(err);
+    ).concat([err]);
 
     if (!errorCode) {
       if (wrappedErrorIsACode) {
@@ -68,7 +68,7 @@ class YError<T = YErrorDebugValue> extends Error {
       }
     }
 
-    return new YError(errorCode, debugValues, wrappedErrors);
+    return new YError<T>(errorCode, debugValues, wrappedErrors);
   }
 
   /**
@@ -83,10 +83,10 @@ class YError<T = YErrorDebugValue> extends Error {
    * @return {YError}
    * The wrapped error
    */
-  static cast<T = YErrorDebugValue>(
+  static cast<T extends unknown[] = YErrorDebugValue>(
     err: Error | YError,
     errorCode?: string,
-    debugValues: T[] = [],
+    debugValues: T = [] as unknown as T,
   ): YError {
     if (looksLikeAYError(err)) {
       return err;
@@ -107,10 +107,10 @@ class YError<T = YErrorDebugValue> extends Error {
    * @return {YError}
    * The wrapped error
    */
-  static bump<T = YErrorDebugValue>(
+  static bump<T extends unknown[] = YErrorDebugValue>(
     err: Error | YError,
     errorCode?: string,
-    debugValues: T[] = [],
+    debugValues: T = [] as unknown as T,
   ): YError {
     if (looksLikeAYError(err)) {
       return YError.wrap(err, err.code, err.debugValues);
@@ -153,6 +153,10 @@ export function printStackTrace(err: Error | YError): string {
       }`;
 }
 
+export function looksLikeAYErrorCode(str: string): boolean {
+  return /^([A-Z0-9_]+)$/.test(str);
+}
+
 // In order to keep compatibility through major versions
 // we have to make kind of a cross major version instanceof
 export function looksLikeAYError(err: Error | YError): err is YError {
@@ -172,8 +176,44 @@ export function looksLikeAYError(err: Error | YError): err is YError {
   );
 }
 
-export function looksLikeAYErrorCode(str: string): boolean {
-  return /^([A-Z0-9_]+)$/.test(str);
+/**
+ * Allow to check a YError code and cast the error.
+ * @param {Error} err
+ * The error to cast
+ * @param {Error} code
+ * The code to check
+ * @return {boolean}
+ * The result
+ */
+export function hasYErrorCode<T extends unknown[] = YErrorDebugValue>(
+  err: Error | YError,
+  code: string,
+): err is YError<T> {
+  return looksLikeAYError(err) && err.code === code;
+}
+
+/**
+ * Allow to check all errors for a YError code and return the casted the error.
+ * @param {Error} err
+ * The error to cast
+ * @param {Error} code
+ * The code to check
+ * @return {boolean}
+ * The result
+ */
+export function pickYErrorWithCode<T extends unknown[] = YErrorDebugValue>(
+  err: Error | YError,
+  code: string,
+): YError<T> | null {
+  for (const currentError of [err].concat(
+    'wrappedErrors' in err ? err.wrappedErrors : [],
+  )) {
+    if (hasYErrorCode(currentError, code)) {
+      return currentError as YError<T>;
+    }
+  }
+
+  return null;
 }
 
 export { YError };

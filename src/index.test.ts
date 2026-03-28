@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import { YError } from './index.js';
+import { hasYErrorCode, pickYErrorWithCode, YError } from './index.js';
 
 describe('YError', () => {
   describe('.__constructor', () => {
@@ -218,6 +218,38 @@ describe('YError', () => {
         ).toBeTruthy();
       }
       expect(err.name).toEqual(err.toString());
+    });
+  });
+
+  describe('.hasYErrorCode()', () => {
+    test('should work with defined debug value type', () => {
+      const err = new YError('E_ERROR', ['arg1.1', 'arg1.2']);
+
+      expect(hasYErrorCode<`arg${string}`[]>(err, 'E_ERROR')).toBeTruthy();
+    });
+
+    test('should work with undefined debug value type', () => {
+      const err = new YError('E_ERROR', ['arg1.1', 'arg1.2']);
+
+      expect(hasYErrorCode(err, 'E_ERROR')).toBeTruthy();
+    });
+
+    test('should work with native errors', () => {
+      const err = new Error('E_ERROR');
+
+      expect(hasYErrorCode(err, 'E_ERROR')).toBeFalsy();
+    });
+  });
+
+  describe('.pickYErrorWithCode()', () => {
+    test('should work', () => {
+      const err1 = new Error('E_ERROR_1');
+      const err2 = YError.wrap(err1, 'E_ERROR_2', ['arg1.1', 'arg1.2']);
+      const err3 = YError.wrap(err2, 'E_ERROR_3', ['arg1.1', 'arg1.2']);
+
+      expect(pickYErrorWithCode(err3, 'E_ERROR_1')).toEqual(null);
+      expect(pickYErrorWithCode(err3, 'E_ERROR_2')).toEqual(err2);
+      expect(pickYErrorWithCode(err3, 'E_ERROR_3')).toEqual(err3);
     });
   });
 });
