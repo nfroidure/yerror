@@ -1,3 +1,10 @@
+# [9.1.0](https://github.com/nfroidure/yerror/compare/v9.0.0...v9.1.0) (2026-03-28)
+
+
+### Features
+
+* add more casting features ([1153fcf](https://github.com/nfroidure/yerror/commit/1153fcf481d7660f247e65f5a8c8596f2abe511c))
+
 # [9.0.0](https://github.com/nfroidure/yerror/compare/v8.0.0...v9.0.0) (2026-03-25)
 
 # [8.0.0](https://github.com/nfroidure/yerror/compare/v7.0.0...v8.0.0) (2023-08-12)
