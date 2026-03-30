@@ -1,3 +1,5 @@
+## [9.1.1](https://github.com/nfroidure/yerror/compare/v9.1.0...v9.1.1) (2026-03-30)
+
 # [9.1.0](https://github.com/nfroidure/yerror/compare/v9.0.0...v9.1.0) (2026-03-28)
 
 
