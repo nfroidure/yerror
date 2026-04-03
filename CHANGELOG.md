@@ -1,3 +1,18 @@
+# [10.0.0](https://github.com/nfroidure/yerror/compare/v9.1.1...v10.0.0) (2026-04-03)
+
+
+### Features
+
+* rewrite YError to use native Error.cause and Global Registry ([14ecd7d](https://github.com/nfroidure/yerror/commit/14ecd7d0956de0d1ec14f9e9a1377327af81ae46))
+
+
+### BREAKING CHANGES
+
+* - 'wrappedErrors' property is removed in favor of the standard 'cause' property.
+- 'debugValues' property is renamed to 'debug' for brevity.
+- Enhanced TypeScript support with 'YErrorRegistry' for global error typing.
+- 'printStackTrace' is now recursive through the 'cause' chain.
+
 ## [9.1.1](https://github.com/nfroidure/yerror/compare/v9.1.0...v9.1.1) (2026-03-30)
 
 # [9.1.0](https://github.com/nfroidure/yerror/compare/v9.0.0...v9.1.0) (2026-03-28)
