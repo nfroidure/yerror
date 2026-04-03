@@ -12,6 +12,9 @@
 
 [//]: # (::contents:start)
 
+A robust Error subclass with error codes, typed debug values, and recursive
+stack traces using native Error.cause.
+
 ## Usage
 
 First, require me where you could throw errors:
@@ -24,15 +27,14 @@ Then, emit errors with a bonus: parameters!
 
 ```js
 function doSomething(pay, action) {
-  if(parseInt(pay, 10) !== pay) {
-    throw new YError('E_BAD_PAY', pay, action);
+  if (parseInt(pay, 10) !== pay) {
+    throw new YError('E_BAD_PAY', [pay, action]);
   }
 }
 
 doSomething('nuts', 'code');
 
-
-// YError: E_BAD_PAY (nuts, code)
+// YError: E_BAD_PAY (["nuts", "code"])
 //   at doSomething (/home/nfroidure/nfroidure/yerror/test.js:5:11)
 //   at Object.<anonymous> (/home/nfroidure/nfroidure/yerror/test.js:9:1)
 //   (...)
@@ -45,31 +47,56 @@ Also, you could want to wrap errors and keep a valuable stack trace:
 
 ```js
 function doSomethingAsync(pay, action) {
-  return  new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
       doSomething(pay, action);
       resolve();
-    } catch(err) {
+    } catch (err) {
       reject(YError.bump(err));
     }
   });
 }
 
-doSomethingAsync('nuts', 'code')
-  .catch(function(err) {
-    console.log(err.stack);
-  });
+doSomethingAsync('nuts', 'code').catch(function (err) {
+  console.log(err.stack);
+});
 
 // YError: E_BAD_PAY (nuts, code)
 //    at doSomething (/home/nfroidure/nfroidure/yerror/test.js:5:11)
 //    (...)
-// YError: E_BAD_TRANSACTION (pay)
+// Caused by: YError: E_BAD_TRANSACTION (pay)
 //    at Function.YError.wrap (/home/nfroidure/nfroidure/yerror/src/index.js:41:12)
 //    at /home/nfroidure/nfroidure/yerror/test.js:16:21
 //    at doSomethingAsync (/home/nfroidure/nfroidure/yerror/test.js:11:11)
 //    (...)
 ```
 
+## Global Error Registry
+
+You can now get full autocompletion and type-safety for your error codes and
+their debug data.
+
+```ts
+import { YError } from 'yerror';
+
+declare module 'yerror' {
+  interface YErrorRegistry {
+    E_USER_NOT_FOUND: [userId: string];
+  }
+}
+
+// TypeScript will now enforce the correct arguments:
+throw new YError('E_USER_NOT_FOUND', ['123']);
+
+// Users of you own code will then be able to cast errors
+try {
+  getUser('123');
+} catch (err) {
+  if (hasYErrorCode(err, 'E_USER_NOT_FOUND')) {
+    console.log(err.debug[0]);
+  }
+}
+```
 
 [//]: # (::contents:end)
 
@@ -78,7 +105,7 @@ doSomethingAsync('nuts', 'code')
 
 <dl>
 <dt><a href="#YError">YError</a> ⇐ <code>Error</code></dt>
-<dd><p>A YError class able to contain some debugValues and
+<dd><p>A YError class able to contain some debug and
  print better stack traces</p>
 </dd>
 </dl>
@@ -101,35 +128,36 @@ doSomethingAsync('nuts', 'code')
 <a name="YError"></a>
 
 ## YError ⇐ <code>Error</code>
-A YError class able to contain some debugValues and
+A YError class able to contain some debug and
  print better stack traces
 
 **Kind**: global class  
 **Extends**: <code>Error</code>  
 
 * [YError](#YError) ⇐ <code>Error</code>
-    * [new YError([errorCode], [debugValues])](#new_YError_new)
-    * [.wrap(err, [errorCode], [debugValues])](#YError.wrap) ⇒ [<code>YError</code>](#YError)
-    * [.cast(err, [errorCode], [debugValues])](#YError.cast) ⇒ [<code>YError</code>](#YError)
-    * [.bump(err, [errorCode], [debugValues])](#YError.bump) ⇒ [<code>YError</code>](#YError)
+    * [new YError([errorCode], [debug], options)](#new_YError_new)
+    * [.wrap(err, [errorCode], [debug])](#YError.wrap) ⇒ [<code>YError</code>](#YError)
+    * [.cast(err, [errorCode], [debug])](#YError.cast) ⇒ [<code>YError</code>](#YError)
+    * [.bump(err, [errorCode], [debug])](#YError.bump) ⇒ [<code>YError</code>](#YError)
 
 <a name="new_YError_new"></a>
 
-### new YError([errorCode], [debugValues])
+### new YError([errorCode], [debug], options)
 Creates a new YError with an error code
- and some debugValues as debug values.
+ and some debug as debug values.
 
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [debugValues] | <code>any</code> |  | Some additional debugging values |
+| [debug] | <code>any</code> |  | Some additional debugging values The error options |
+| options | <code>Object</code> |  | The error options |
 
 <a name="YError.wrap"></a>
 
-### YError.wrap(err, [errorCode], [debugValues]) ⇒ [<code>YError</code>](#YError)
+### YError.wrap(err, [errorCode], [debug]) ⇒ [<code>YError</code>](#YError)
 Wraps any error and output a YError with an error
- code and some debugValues as debug values.
+ code and some debug as debug values.
 
 **Kind**: static method of [<code>YError</code>](#YError)  
 **Returns**: [<code>YError</code>](#YError) - The wrapped error  
@@ -138,13 +166,13 @@ Wraps any error and output a YError with an error
 | --- | --- | --- | --- |
 | err | <code>Error</code> |  | The error to wrap |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [debugValues] | <code>any</code> |  | Some additional debugging values |
+| [debug] | <code>any</code> |  | Some additional debugging values |
 
 <a name="YError.cast"></a>
 
-### YError.cast(err, [errorCode], [debugValues]) ⇒ [<code>YError</code>](#YError)
+### YError.cast(err, [errorCode], [debug]) ⇒ [<code>YError</code>](#YError)
 Return a YError as is or wraps any other error and output
- a YError with a code and some debugValues as debug values.
+ a YError with a code and some debug as debug values.
 
 **Kind**: static method of [<code>YError</code>](#YError)  
 **Returns**: [<code>YError</code>](#YError) - The wrapped error  
@@ -153,11 +181,11 @@ Return a YError as is or wraps any other error and output
 | --- | --- | --- | --- |
 | err | <code>Error</code> |  | The error to cast |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [debugValues] | <code>any</code> |  | Some additional debugging values |
+| [debug] | <code>any</code> |  | Some additional debugging values |
 
 <a name="YError.bump"></a>
 
-### YError.bump(err, [errorCode], [debugValues]) ⇒ [<code>YError</code>](#YError)
+### YError.bump(err, [errorCode], [debug]) ⇒ [<code>YError</code>](#YError)
 Same than `YError.wrap()` but preserves the code
  and the debug values of the error if it is
  already an instance of the YError constructor.
@@ -169,7 +197,7 @@ Same than `YError.wrap()` but preserves the code
 | --- | --- | --- | --- |
 | err | <code>Error</code> |  | The error to bump |
 | [errorCode] | <code>string</code> | <code>&quot;&#x27;E_UNEXPECTED&#x27;&quot;</code> | The error code corresponding to the actual error |
-| [debugValues] | <code>any</code> |  | Some additional debugging values |
+| [debug] | <code>any</code> |  | Some additional debugging values |
 
 <a name="printStackTrace"></a>
 
