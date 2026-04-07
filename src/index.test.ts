@@ -12,6 +12,8 @@ declare module './index.js' {
     E_ERROR_1: [string, string];
     E_ERROR_2: [`arg2.1`, `arg2.2`];
     E_ERROR_3: [`arg3.1`, `arg3.2`];
+    // Not an array will trigger type errors
+    E_ERROR_4: { foo: 'bar' };
   }
 }
 
@@ -30,8 +32,8 @@ describe('YError', () => {
       const err = new YError();
 
       expect(err.code).toEqual('E_UNEXPECTED');
-      expect(err.debug).toEqual(undefined);
-      expect(err.toString()).toEqual('YError: E_UNEXPECTED (undefined)');
+      expect(err.debug).toEqual([]);
+      expect(err.toString()).toEqual('YError: E_UNEXPECTED ([])');
       expect(err.name).toEqual(err.toString());
     });
     test('should work without new', () => {
@@ -52,7 +54,7 @@ describe('YError', () => {
 
       expect(err.code).toEqual('E_UNEXPECTED');
       expect(err.cause).toEqual(causeErr);
-      expect(err.debug).toEqual(undefined);
+      expect(err.debug).toEqual([]);
 
       if ('captureStackTrace' in Error) {
         expect(
@@ -60,7 +62,7 @@ describe('YError', () => {
         ).toBeTruthy();
         expect(
           -1 !==
-            printStackTrace(err).indexOf('YError: E_UNEXPECTED (undefined)'),
+            printStackTrace(err).indexOf('YError: E_UNEXPECTED ([])'),
         ).toBeTruthy();
         expect(err.name).toEqual(err.toString());
       }
@@ -72,14 +74,14 @@ describe('YError', () => {
 
       expect(err.code).toEqual('E_ERROR');
       expect(err.cause).toEqual(causeErr);
-      expect(err.debug).toEqual(undefined);
+      expect(err.debug).toEqual([]);
 
       if ('captureStackTrace' in Error) {
         expect(
           -1 !== printStackTrace(err).indexOf('Error: E_ERROR'),
         ).toBeTruthy();
         expect(
-          -1 !== printStackTrace(err).indexOf('YError: E_ERROR (undefined)'),
+          -1 !== printStackTrace(err).indexOf('YError: E_ERROR ([])'),
         ).toBeTruthy();
       }
       expect(err.name).toEqual(err.toString());
@@ -147,7 +149,7 @@ describe('YError', () => {
 
       expect(err.code).toEqual('E_UNEXPECTED');
       expect(err.cause).toEqual(causeErr);
-      expect(err.debug).toEqual(undefined);
+      expect(err.debug).toEqual([]);
 
       if ('captureStackTrace' in Error) {
         expect(
@@ -155,7 +157,7 @@ describe('YError', () => {
         ).toBeTruthy();
         expect(
           -1 !==
-            printStackTrace(err).indexOf('YError: E_UNEXPECTED (undefined)'),
+            printStackTrace(err).indexOf('YError: E_UNEXPECTED ([])'),
         ).toBeTruthy();
       }
       expect(err.name).toEqual(err.toString());
@@ -186,7 +188,7 @@ describe('YError', () => {
 
       expect(err.code).toEqual('E_UNEXPECTED');
       expect(err.cause).toEqual(causeErr);
-      expect(err.debug).toEqual(undefined);
+      expect(err.debug).toEqual([]);
 
       if ('captureStackTrace' in Error) {
         expect(
@@ -194,7 +196,7 @@ describe('YError', () => {
         ).toBeTruthy();
         expect(
           -1 !==
-            printStackTrace(err).indexOf('YError: E_UNEXPECTED (undefined)'),
+            printStackTrace(err).indexOf('YError: E_UNEXPECTED ([])'),
         ).toBeTruthy();
       }
       expect(err.name).toEqual(err.toString());
@@ -305,9 +307,9 @@ describe('YError', () => {
 
   test('should enforce types from registry', () => {
     // @ts-expect-error : E_ERROR_1 expects [string, string]
-    new YError('E_ERROR_1', ['un seul']);
+    new YError('E_ERROR_1', ['only one']);
     // Must work
-    new YError('E_WHATEVER', ['un seul']);
+    new YError('E_WHATEVER', ['only one']);
     new YError('E_WHATEVER', undefined);
     new YError('E_WHATEVER');
 
@@ -319,7 +321,7 @@ describe('YError', () => {
     const err2 = err as YError;
 
     // @ts-expect-error : still unknown at this level
-    const val2: 'arg2.1' | undefined = err2.debug?.[0];
+    const val2: 'arg2.1' = err2.debug[0];
 
     expect(val2);
 
@@ -327,8 +329,11 @@ describe('YError', () => {
       throw new YError('E_UNEXPECTED');
     }
 
-    const val3: 'arg2.1' | undefined = err2.debug?.[0];
+    const val3: 'arg2.1' = err2.debug[0];
 
     expect(val3);
+
+    // @ts-expect-error : expect error since not an array
+    new YError('E_ERROR_4', { foo: 'bar' });
   });
 });

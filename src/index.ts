@@ -1,15 +1,14 @@
 import { EOL } from 'node:os';
 
 export interface YErrorRegistry {
-  E_UNEXPECTED: unknown;
+  E_UNEXPECTED: unknown[];
 }
-export type ErrorCode = keyof YErrorRegistry extends never
-  ? string
-  : keyof YErrorRegistry | (string & {});
 
-export type ErrorParams<C extends string> = C extends keyof YErrorRegistry
-  ? YErrorRegistry[C]
-  : unknown;
+export type YErrorDebug<C extends string> = C extends keyof YErrorRegistry
+  ? YErrorRegistry[C] extends unknown[]
+    ? YErrorRegistry[C]
+    : never
+  : unknown[];
 
 /**
  * A YError class able to contain some debug and
@@ -21,7 +20,7 @@ class YError<
   CC extends string = string,
 > extends Error {
   code: string;
-  debug: ErrorParams<C> | undefined;
+  debug: YErrorDebug<C>;
   cause?: Error | YError<CC> | undefined;
   /**
    * Creates a new YError with an error code
@@ -36,7 +35,7 @@ class YError<
    */
   constructor(
     errorCode: C = 'E_UNEXPECTED' as C,
-    debug?: ErrorParams<C>,
+    debug?: YErrorDebug<C>,
     options: { cause?: Error | YError<CC> } = {},
   ) {
     // Call the parent constructor
@@ -44,7 +43,7 @@ class YError<
 
     // Filling error
     this.code = errorCode;
-    this.debug = debug;
+    this.debug = (debug || []) as YErrorDebug<C>;
     this.cause = options.cause;
     this.name = this.toString();
 
@@ -68,7 +67,7 @@ class YError<
   static wrap<C extends string, CC extends string>(
     err: Error | YError<CC>,
     errorCode?: C,
-    debug?: ErrorParams<C>,
+    debug?: YErrorDebug<C>,
   ): YError<C, CC> {
     const wrappedErrorIsACode = looksLikeAYErrorCode(err.message);
 
@@ -98,7 +97,7 @@ class YError<
   static cast<C extends string, CC extends string>(
     err: Error | YError<C> | YError<CC>,
     errorCode?: C,
-    debug?: ErrorParams<C>,
+    debug?: YErrorDebug<C>,
   ): YError<C> | YError<C, CC> {
     if (looksLikeAYError(err)) {
       return err as YError<C>;
@@ -122,10 +121,10 @@ class YError<
   static bump<C extends string, CC extends string>(
     err: Error | YError<CC>,
     errorCode?: C,
-    debug?: ErrorParams<C>,
+    debug?: YErrorDebug<C>,
   ): YError<C, CC> | YError<CC, CC> {
     if (looksLikeAYError(err)) {
-      return YError.wrap(err, err.code as CC, err.debug as ErrorParams<CC>);
+      return YError.wrap(err, err.code as CC, err.debug as YErrorDebug<CC>);
     }
     return YError.wrap(err, errorCode, debug);
   }
