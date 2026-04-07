@@ -1,3 +1,10 @@
+# [11.0.0](https://github.com/nfroidure/yerror/compare/v10.0.0...v11.0.0) (2026-04-07)
+
+
+### Bug Fixes
+
+* **types:** better type inference ([283ba75](https://github.com/nfroidure/yerror/commit/283ba75bde7a4c8e7a89bb6a26866f8c43659c1b))
+
 # [10.0.0](https://github.com/nfroidure/yerror/compare/v9.1.1...v10.0.0) (2026-04-03)
 
 
